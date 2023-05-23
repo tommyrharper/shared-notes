@@ -32,7 +32,7 @@ Each individual escrow entry is an ERC721 NFT in `RewardEscrow`.
 
 ## 2. Account NFTs
 
-![](2023-05-23-16-27-49.png)
+![](2023-05-23-17-37-55.png)
 
 ERC721 `StakingAccount` contract NFTs which hold escrow entries and stake with `StakingRewards`.
 Escrow Entries and stake are registered with `StakingRewards` contract using `accountId` instead of address.
