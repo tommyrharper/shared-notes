@@ -40,8 +40,6 @@ Escrow Entries and stake are registered with `StakingRewards` contract using `ac
 ### Pros
 
 - Simplifies overall workflow - can do everything through `StakingAccount` contract
-- No need for a `Beacon` or `Factory` contract
-- No need to deploy a new `StakingAccount` contract for each user - cheaper
 - Allows for transfer of escrow entries that are staked - no need to wait for cooldown period to end
 - Can transfer a whole position (escrow entries + staked KWENTA) to a new address in one transaction - `transferFrom`
 
