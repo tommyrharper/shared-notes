@@ -8,17 +8,17 @@ Link to PR with the latest code: https://github.com/Kwenta/token/pull/213
 
 ## Unstaking Cooldown Period
 
-- There is now an unstaking cooldown period for v2. This is set to 2 weeks by default, but can be changed by the admin.
-  - During the cooldown period it is not possible to unstake.
-    - The exception to this is when vesting - staked escrow will bypass the cooldown period when vesting.
-  - Once the cooldown period has passed, the user can then unstake.
-  - Every time a user stakes (any amount) the cooldown timer is reset.
-  - The following functions are effected by the cooldown:
-    - `StakingRewardsV2.userLastStakeTime(address user)`
-    - `StakingRewardsV2.unstake(uint256 amount)`
-    - `RewardEscrowV2.unstakeEscrow(address account, uint256 amount)`
-    - `RewardEscrowV2.transferFrom(address from, address to, uint256 tokenId)`
-      - The reason the `transferFrom` is affecting is that escrow entries cannot be transferred unless they are unstaked.
+There is now an unstaking cooldown period for v2. This is set to 2 weeks by default, but can be changed by the admin.
+- During the cooldown period it is not possible to unstake.
+  - The exception to this is when vesting - staked escrow will bypass the cooldown period when vesting.
+- Once the cooldown period has passed, the user can then unstake.
+- Every time a user stakes (any amount) the cooldown timer is reset.
+- The following functions are effected by the cooldown:
+  - `StakingRewardsV2.userLastStakeTime(address user)`
+  - `StakingRewardsV2.unstake(uint256 amount)`
+  - `RewardEscrowV2.unstakeEscrow(address account, uint256 amount)`
+  - `RewardEscrowV2.transferFrom(address from, address to, uint256 tokenId)`
+    - The reason the `transferFrom` is affecting is that escrow entries cannot be transferred unless they are unstaked.
 
 ## V2 Escrow Entries are now ERC721 Tokens (NFTs)
 
