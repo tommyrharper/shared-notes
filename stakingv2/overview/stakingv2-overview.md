@@ -43,7 +43,7 @@ There are a few things to be aware of:
 2. The `RewardEscrowV2.balanceOf` function has a different meaning to the V1 `RewardEscrow.balanceOf` function.
    - In v1 `balanceOf` meant a users total amount of escrowed balance.
    - In v2 `balanceOf` means the number of NFTs/escrow entries a user has. This is because of the ERC721 standard.
-     - In v2 the to get a users total escrowed balance you must use `RewardEscrowV2.totalEscrowedBalanceOf(address account)`
+     - In v2 the to get a users total escrowed balance you must use `RewardEscrowV2.escrowedBalanceOf(address account)`
 3. The escrow entry NFTs will burnt when vested.
 
 This unlocks all the following functions for escrow entries:
