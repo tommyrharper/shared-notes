@@ -81,6 +81,15 @@ Users now have the ability to delegate the ability to claim rewards and stake es
   - `StakingRewardsV2.approveOperator(address operator, bool approved)`
   - `StakingRewardsV2.stakeEscrowOnBehalf(address account, uint256 amount)`
   - `StakingRewardsV2.getRewardOnBehalf(address account)`
+  - `StakingRewardsV2.compoundOnBehalf(address account)`
+
+## Compounding
+
+Previously users wanting to maximize their staking returns had to repeatedly claim and stake their rewards in two separate transactions. This was a pain for users and also caused a lot of unnecessary transactions on the network and gas costs.
+
+Hence we have added a new `compound` function that allows users to claim and stake those rewards in one transaction. This is also available for delegation.
+- `StakingRewardsV2.compound()`
+- `StakingRewardsV2.compoundOnBehalf(address account)`
 
 ## New Admin Features
 
@@ -134,3 +143,4 @@ StakingV2 front-end functionality should reach at least V1 parity by the time of
 - Ability to transfer and bulk transfer escrow entries and all other associated NFT functionality (approvals etc.)
 - Delegation of the ability to claim rewards and stake escrow.
 - Some cool use of historical values (checkpointing) - maybe a graph of different staked values over time.
+- Ability to compound rewards in a single transaction using the new `compound` function.
