@@ -4,6 +4,13 @@ Staking V2 is going through it's final refinements and is about to be sent to au
 
 Link to PR with the latest code: https://github.com/Kwenta/token/pull/213
 
+## Optimism Goerli Testnet Deployment
+
+- RewardEscrowV2 Implementation: 0x0A34aee61770b3cE293Fb17CfC9d4a7F70945260
+- RewardEscrowV2 Proxy: 0xf211F298C6985fF4cF6f9488e065292B818163F8
+- StakingRewardsV2 Implementation: 0xE0aD43191312D6220DE64aFA54dbdD6982991A87
+- StakingRewardsV2 Proxy: 0x3e5371D909Bf1996c95e9D179b0Bc91C26fb1279
+
 # New Features and Changes
 
 ## Unstaking Cooldown Period
