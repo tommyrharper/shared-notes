@@ -2,24 +2,66 @@
 
 ## REV-01S: Inexistent Sanitization of Input Addresses
 
-- A zero-value check on `_contractOwner` before calling `transferOwnership` is not necessary as the `transferOwnership` function already performs this check:
-```solidity
-function transferOwnership(address newOwner) public virtual onlyOwner {
-    require(newOwner != address(0), "Ownable: new owner is the zero address");
-    _transferOwnership(newOwner);
-}
-```
-- I have added a zero address check for the `_kwenta` address.
-- I had added test cases for both of these checks.
+- Done
 
 ## SRV-01S: Inexistent Sanitization of Input Addresses
 
-- I have added zero value address checks for all values except `_contractOwner` based on same reasoning as above.
+- Done
 
 ## REV-01M: Improper Bulk Transfer to Self
 
-- I have added a check to prevent the ability to bulk transfer entries to oneself.
+- Done
 
 ## REV-02M: Discrepant Handling of Fees
 
-- Have updated the code logic to handle this edge case.
+- Done
+
+## REV-01C: Duplicate Initialization of Dependency
+
+- Done
+
+## REV-02C: Improper Comparison of Values
+
+- Done
+
+## REV-03C: Ineffectual Usage of Safe Arithmetics
+
+- Done
+
+## REV-04C: Inefficient Pointer Location
+
+- Done
+
+## REV-05C: Inefficient Transfer of Ownership
+
+- Done
+
+## REV-06C: Inefficient mapping Lookups
+
+- Done
+
+## REV-07C: Loop Iterator Optimization
+
+- Deciding not to do this optimization as it requires two unchecked operations, one at the end of the for loop and one in the continue if block to avoid infinite loops occurring. This makes the code less readable and makes it more likely for a mistake to made by a future developer doing an upgrade.
+
+## REV-08C: Potential Enhancement of Error Handling
+
+- Done
+
+## REV-09C: Redundant Getter Function
+
+- Done
+
+## REV-10C: Redundant Type Castings
+
+- Done
+
+## REV-11C: Repetitive Value Literals
+
+- Unclear what you want changing in this instance.
+
+## REV-12C: Variable Mutability Specifier (Immutable)
+
+- Cannot set value set in initializer to immutable.
+
+
