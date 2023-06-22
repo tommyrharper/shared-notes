@@ -12,4 +12,6 @@ function transferOwnership(address newOwner) public virtual onlyOwner {
 - I have added a zero address check for the `_kwenta` address.
 - I had added test cases for both of these checks.
 
+## SRV-01S: Inexistent Sanitization of Input Addresses
 
+- I have added zero value address checks for all values except `_contractOwner` based on same reasoning as above.
