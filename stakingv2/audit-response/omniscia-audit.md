@@ -15,3 +15,11 @@ function transferOwnership(address newOwner) public virtual onlyOwner {
 ## SRV-01S: Inexistent Sanitization of Input Addresses
 
 - I have added zero value address checks for all values except `_contractOwner` based on same reasoning as above.
+
+## REV-01M: Improper Bulk Transfer to Self
+
+- I have added a check to prevent the ability to bulk transfer entries to oneself.
+
+## REV-02M: Discrepant Handling of Fees
+
+- Have updated the code logic to handle this edge case.
