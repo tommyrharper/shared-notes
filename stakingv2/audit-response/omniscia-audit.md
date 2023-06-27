@@ -58,10 +58,40 @@
 
 ## REV-11C: Repetitive Value Literals
 
-- Unclear what you want changing in this instance.
+- The other instance of `MAXIMUM_EARLY_VESTING_FEE` being used, where it is set as 100, does not have semantically the same meaning as `MAXIMUM_EARLY_VESTING_FEE`. In this instance the meaning of `100` is "100 percent". However the `MAXIMUM_EARLY_VESTING_FEE` could be set to say `90` in a future upgrade, and the 100 would still remain the same as "100 percent".
 
 ## REV-12C: Variable Mutability Specifier (Immutable)
 
 - Cannot set value set in initializer to immutable.
 
+## SRV-01C: Generic Typographic Mistakes
 
+- Done
+
+## SRV-02C: Ineffectual Usage of Safe Arithmetics
+
+- Done
+
+## SRV-03C: Inefficient Transfer of Ownership
+
+- Done
+
+## SRV-04C: Inefficient mapping Lookups
+
+- Done
+
+## SRV-05C: Potential Error Enhancement
+
+- Done
+
+## SRV-06C: Redundant Parenthesis Statement
+
+- Done
+
+## SRV-07C: Suboptimal Struct Declaration Style
+
+- Done
+
+## SRV-08C: Variable Mutability Specifiers (Immutable)
+
+- Cannot set value set in initializer to immutable.
