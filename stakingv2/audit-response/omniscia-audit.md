@@ -62,7 +62,7 @@
 
 ## REV-12C: Variable Mutability Specifier (Immutable)
 
-- Cannot set value set in initializer to immutable.
+- Done
 
 ## SRV-01C: Generic Typographic Mistakes
 
@@ -94,4 +94,4 @@
 
 ## SRV-08C: Variable Mutability Specifiers (Immutable)
 
-- Cannot set value set in initializer to immutable.
+- Done
