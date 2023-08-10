@@ -22,11 +22,13 @@ There are gas intensive loops required in two key functions (`registerEntries` &
 
 Hence escrow will have to be migrated in “batches”. Current calculations suggest batches can be up to ~140 entries at a time.
 
-## The Happy Path
+## The Happy Path - use this!
 
-The happy path works as follows:
+The happy path works for migrating escrowed $KWENTA goes as follows:
 
 ![](2023-08-10-18-00-50.png)
+
+Or in words:
 
 1. **Vest mature v1 entries** --------> `RewardEscrowV1.vest(fullyMatureEntryIDs)`
 2. **Claim last v1 rewards** ---------> `StakingRewardsV1.getReward()`
@@ -38,15 +40,15 @@ The happy path works as follows:
 7. **Migrate** ------------------------> `EscrowMigrator.migrateEntries(to, entryIDs)`
    - Repeat this step in size ~120 batches until all entries are migrated
 
-From here on it is a continuation of the previous flow:
+From here on to migrate liquid $KWENTA it is a continuation of the flow already built:
 1. `Unstake` any V1 staked liquid $KWENTA
 2. `Stake` the liquid $KWENTA on V2
 
-And that’s it! The user now has all their V1 entries duplicated on V2 and their liquid $KWENTA staked on V2
+And that’s it! The user now has all their V1 entries duplicated on V2 and their liquid $KWENTA staked on V2.
 
+The front-end should guide users down this path.
 
-
-## The Unhappy Path
+## The Unhappy Path - ensure this is impossible!
 
 It is critical that the front-end team understands the unhappy path, so they can ensure it is impossible to go down using the official Kwenta front-end.
 
