@@ -24,8 +24,9 @@ Hence escrow will have to be migrated in “batches”. Current calculations sug
 
 ## The Happy Path
 
-
 The happy path works as follows:
+
+![](2023-08-10-18-00-50.png)
 
 1. Vest mature v1 entries --------> `RewardEscrowV1.vest(fullyMatureEntryIDs)`
 2. Claim last v1 rewards ---------> `StakingRewardsV1.getReward()`
@@ -42,6 +43,8 @@ From here on it is a continuation of the previous flow:
 2. `Stake` the liquid $KWENTA on V2
 
 And that’s it! The user now has all their V1 entries duplicated on V2 and their liquid $KWENTA staked on V2
+
+
 
 ## The Unhappy Path
 
