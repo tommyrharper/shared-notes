@@ -58,6 +58,21 @@ The unhappy path goes like this:
 
 If a user does this, they will be required to pay extra $KWENTA to complete the migration process.
 
+### How to ensure this is impossible!
+
+It is pretty easy to ensure that this path is impossible, using the following rules:
+
+An initial "soft" rule should be in place:
+- Force the user the register all their entries when they begin the migration process.
+  - If the user registers all their unvested entries, they cannot fall into the unhappy path.
+    - This is a soft rule as it can be broken without going down the unhappy path (and in the unlikely scenario of a griefing attack - as explained later - we would have to allow this rule to be broken)
+
+A **SUPER IMPORTANT** - and the **MOST IMPORTANT** hard rule:
+- Once a user has registered any entries - only allow them to vest entries returned by `EscrowMigrator.getRegisteredVestingEntryIDs(user, 0, numOfRegisteredEntries)`.
+  - This rule **MUST ALWAYS BE FOLLOWED** under all conditions, and if it is it will guarantee no one goes down the unhappy path.
+
+As long as the front-end follows these rules, the unhappy path will be impossible to go down via the Kwenta front-end.
+
 ### The Unhappy Path Explained
 
 The reason for this is due to a limitation in the way `RewardEscrowV1` works. Initially the kind of migration process we are using now was avoided due to the V1 contracts not supporting this approach.
@@ -83,7 +98,7 @@ The problem comes if a user vests entries that they haven't registered. As each 
 
 ### One Possible Solution and Why it Doesn't Work
 
-It is possible to protect against this issue - simply force the user to register all of their entries. If they have to register all of their entries before moving to the next step, then it is more difficult to fall into this trap. However as anyone can create an escrow entry for anyone, with as little as 1 wei in $KWENTA, this would make users susceptible to a griefing attack. An attacker could create many thousands of entries for a user which they would then be forced to register, and hence they would never be able to migrate.
+It is possible to protect against this issue - simply force the user to register all of their entries at the smart-contract level. If they have to register all of their entries before moving to the next step, then it is more difficult to fall into this trap. However as anyone can create an escrow entry for anyone, with as little as 1 wei in $KWENTA, this would make users susceptible to a griefing attack. An attacker could create many thousands of entries for a user which they would then be forced to register, and hence they would never be able to migrate.
 
 Hence we have chosen the approach where users can't be griefed but can shoot themselves in the foot if they migrate the wrong way. As the long as the front-end makes this impossible though, and people use the front-end and don't try to migrate "their own way", then everyone should be fine.
 
