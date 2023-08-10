@@ -12,13 +12,13 @@ The flow for migrating V1 staked liquid $KWENTA is exactly the same.
 
 ### The Bad News - Part 1
 
-The flow for migrating V1 escrowed $KWENTA is a bit complicated and contains a bad path, where users can lose money if the front-end doesn’t protect against it. The `EscrowMigrator` contract has been engineered such that a user cannot steal funds from it, they can however lose funds to it if they do not follow the migration flow properly.
+The flow for migrating V1 escrowed $KWENTA is a bit complicated and contains an unhappy path, where users can lose money if the front-end doesn’t protect against it. The `EscrowMigrator` contract has been engineered such that a user cannot steal funds from it, they can however lose funds to it if they do not follow the migration flow properly.
 
 It will be the front-ends job to make it impossible for a user to go down the bad path (though a user could still do it by interacting with the contracts directly).
 
 ### The Bad News - Part 2
 
-There are gas intensive loops required in two key functions for migrating V1 escrow. The other job of the front-end will be to ensure transactions sent using these loops do not do too many iterations at once, so the transaction does not fail.
+There are gas intensive loops required in two key functions (`registerEntries` & `migrateEntries`) for migrating V1 escrow. The other job of the front-end will be to ensure transactions sent using these loops do not do too many iterations at once, so the transaction does not fail due to an out of gas error.
 
 Hence escrow will have to be migrated in “batches”. Current calculations suggest batches can be up to ~140 entries at a time.
 
@@ -28,14 +28,14 @@ The happy path works as follows:
 
 ![](2023-08-10-18-00-50.png)
 
-1. Vest mature v1 entries --------> `RewardEscrowV1.vest(fullyMatureEntryIDs)`
-2. Claim last v1 rewards ---------> `StakingRewardsV1.getReward()`
-3. Register ----------------------> `EscrowMigrator.registerEntries(entryIDs)`
+1. **Vest mature v1 entries** --------> `RewardEscrowV1.vest(fullyMatureEntryIDs)`
+2. **Claim last v1 rewards** ---------> `StakingRewardsV1.getReward()`
+3. **Register** -----------------------> `EscrowMigrator.registerEntries(entryIDs)`
    - Repeat this step in size ~200 batches until all entries are registered
-4. Vest registered entries --------> `RewardEscrowV1.vest(EscrowMigrator.getRegisteredVestingEntryIDs(user, 0, 100))`
+4. **Vest registered entries** --------> `RewardEscrowV1.vest(EscrowMigrator.getRegisteredVestingEntryIDs(user, 0, 100))`
    - WARNING: do not vest unregistered entries - the user will have to pay extra
-6. Approve EscrowMigrator ------> `Kwenta.approve(escrowMigrator, EscrowMigrator.toPay(user))`
-7. Migrate -----------------------> `EscrowMigrator.migrateEntries(to, entryIDs)`
+6. **Approve EscrowMigrator** ------> `Kwenta.approve(escrowMigrator, EscrowMigrator.toPay(user))`
+7. **Migrate** ------------------------> `EscrowMigrator.migrateEntries(to, entryIDs)`
    - Repeat this step in size ~120 batches until all entries are migrated
 
 From here on it is a continuation of the previous flow:
@@ -51,8 +51,8 @@ And that’s it! The user now has all their V1 entries duplicated on V2 and thei
 It is critical that the front-end team understands the unhappy path, so they can ensure it is impossible to go down using the official Kwenta front-end.
 
 The unhappy path goes like this:
-1. Register some entries
-2. Vest some entries have not been registered BEFORE completing the `migrateEntries` step
+1. Register some entries.
+2. Vest some entries have not been registered BEFORE completing the `migrateEntries` step.
 
 If a user does this, they will be required to pay extra $KWENTA to complete the migration process.
 
