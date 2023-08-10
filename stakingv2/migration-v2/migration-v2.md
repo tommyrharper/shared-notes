@@ -1,5 +1,7 @@
 # Staking V2 New Migration Path
 
+- See the PR for the code changes here: https://github.com/Kwenta/token/pull/232
+
 ## Intro
 
 The old staking V2 migration path did not allow the migration of V1 escrowed $KWENTA, only liquid $KWENTA. Unfortunately the attempt to account for V1 escrow in the V2 contracts without migrating exposed a vulnerability, and a new migration path was devised.
