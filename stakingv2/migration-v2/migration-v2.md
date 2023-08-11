@@ -105,6 +105,14 @@ Hence we have chosen the approach where users can't be griefed but can shoot the
 
 It is a reasonable tradeoff - users are always able to shoot themselves in the foot in defi anyway - just send money to a wrong address for example!
 
+## Diagram Of KWENTA Flow at Smart Contract Level
+
+This diagram is to help visualise the flow of what is happening internally at the smart contract level.
+
+It can also be helpful for visualising the flow $KWENTA during the migration path.
+
+![](2023-08-11-17-01-29.png)
+
 ## Logical Details For Each Step
 
 At each step vesting entries with certain properties should be used.
