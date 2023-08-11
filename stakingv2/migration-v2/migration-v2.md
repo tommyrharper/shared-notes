@@ -22,24 +22,24 @@ It will be the front-ends job to make it impossible for a user to go down the ba
 
 There are gas intensive loops required in two key functions (`registerEntries` & `migrateEntries`) for migrating V1 escrow. The other job of the front-end will be to ensure transactions sent using these loops do not do too many iterations at once, so the transaction does not fail due to an out of gas error.
 
-Hence escrow will have to be migrated in “batches”. Current calculations suggest batches can be up to ~140 entries at a time.
+Hence escrow will have to be migrated in “batches”. Current calculations suggest batches can be up to ~130 entries at a time.
 
 ## The Happy Path - use this!
 
 The happy path works for migrating escrowed $KWENTA goes as follows:
 
-![](2023-08-10-18-00-50.png)
+![](2023-08-11-13-28-58.png)
 
 Or in words:
 
-1. **Vest mature v1 entries** --------> `RewardEscrowV1.vest(fullyMatureEntryIDs)`
-2. **Claim last v1 rewards** ---------> `StakingRewardsV1.getReward()`
+1. **Claim last v1 rewards** ---------> `StakingRewardsV1.getReward()`
+2. **Vest mature v1 entries** --------> `RewardEscrowV1.vest(fullyMatureEntryIDs)`
 3. **Register** -----------------------> `EscrowMigrator.registerEntries(entryIDs)`
-   - Repeat this step in size ~200 batches until all entries are registered
+   - Repeat this step in size ~500 batches until all entries are registered
 4. **Vest registered entries** --------> `RewardEscrowV1.vest(EscrowMigrator.getRegisteredVestingEntryIDs(user, 0, 100))`
    - WARNING: do not vest unregistered entries - the user will have to pay extra
-6. **Approve EscrowMigrator** ------> `Kwenta.approve(escrowMigrator, EscrowMigrator.toPay(user))`
-7. **Migrate** ------------------------> `EscrowMigrator.migrateEntries(to, entryIDs)`
+5. **Approve EscrowMigrator** ------> `Kwenta.approve(escrowMigrator, EscrowMigrator.toPay(user))`
+6. **Migrate** ------------------------> `EscrowMigrator.migrateEntries(to, entryIDs)`
    - Repeat this step in size ~120 batches until all entries are migrated
 
 From here on to migrate liquid $KWENTA it is a continuation of the flow already built:
@@ -106,10 +106,187 @@ Hence we have chosen the approach where users can't be griefed but can shoot the
 
 It is a reasonable tradeoff - users are always able to shoot themselves in the foot in defi anyway - just send money to a wrong address for example!
 
+## Logical Details For Each Step
 
+At each step vesting entries with certain properties should be used.
 
+Here I will define the properties that should be checked for at each step along with some pseudocode.
 
+### Step 1 - Claim final V1 Rewards
 
+We know we are in this state if:
+- `stakingRewardsV1.earned(user) > 0` - the user still has V1 rewards to claim
 
+Then we must simply claim those rewards:
+```javascript
+const earned = stakingRewardsV1.earned(user);
 
+if (earned > 0) {
+   // get final v1 rewards
+   await stakingRewardsV1.getReward();
+}
+```
+
+### Step 2 - Vest Fully Mature Entries
+
+- Max number per round: **UNKNOWN** - further research required
+
+We know we are in this state if:
+- `stakingRewardsV1.earned(user) == 0` - there are no more rewards to claim
+- `rewardEscrowV1.balanceOf(user) != 0` - if the user has no reward escrow balance, there is nothing for them to vest or migrate!
+- `escrowMigrator.initiated(user) == false` - the user MUST NOT be initiated (once they have started the migration process, they cannot go back to this step)
+- `numOfMatureUnvestedEntries > 0` - the user has no mature unvested entries
+
+Here we are looking to vest entries with the following properties:
+- `entry.endTime <= block.timestamp` - the entry is fully mature
+- `entry.escrowAmount > 0` - the entry has not already been vested
+
+Or in psuedocode:
+```javascript
+const earned = stakingRewardsV1.earned(user);
+const numOfEntries = await rewardEscrowV1.numVestingEntries(user)
+const entries = await rewardEscrowV1.getVestingSchedules(user, 0, numOfEntries)
+const matureUnvestedEntries = entries.filter(entry => {
+   // must not have the endTime in the future
+   if (entry.endTime > latestBlockTimestamp) return false;
+   // must not already be vested
+   if (entry.escrowAmount == 0) return false;
+   return true;
+ })
+const numOfMatureUnvestedEntries = matureEntries.length
+
+const initiated = await escrowMigrator.initiated(user);
+const rewardEscrowV1Balance = rewardEscrowV1.balanceOf(user);
+
+if (earned == 0 && !initiated && rewardEscrowV1Balance > 0 && numOfMatureUnvestedEntries > 0) {
+   // if we are in this state, vest the fully mature entries
+   await rewardEscrowV1.vest(matureUnvestedEntries)
+} 
+
+```
+
+### Step 3 - Register Entries
+
+- Max number per round: ~500
+
+We know we are in this state if:
+- `numOfMatureUnvestedEntries == 0 || escrowMigrator.initiated(user) == true` - we should be back in step 2 if we have unvested mature entries, unless we have already called `escrowMigrator.registerEntries` - at which point we must register any unregistered mature entries as we are now in the `initiated = true` state.
+- `entriesToRegister > 0` - some unvested entries have not been registered
+
+We are looking to migrate entries with the following properties:
+- `entry.escrowAmount > 0` - the entry has not already been vested
+- `registeredEntry.escrowAmount == 0` - the entry has not already been registered
+
+We should collect all those entries and pass them into the `escrowMigrator.registerEntries` function:
+```javascript
+const numEntries = await rewardEscrowV1.numVestingEntries(user)
+const entries = await rewardEscrowV1.getVestingSchedules(user, 0, numEntries)
+const registeredEntries = await escrowMigrator.getRegisteredVestingSchedules(user, 0, numEntries)
+const registeredEntriesMap = {};
+registeredEntries.forEach(entry => {
+   registeredEntriesMap[entry.entryID] = true;
+})
+const entriesToRegister = entries.filter(entry => {
+   // must not be vested
+   if (entry.escrowAmount == 0) return false;
+   // must not already be registered
+   if (registeredEntriesMap[entry.entryID]) return false;
+   return true;
+})
+
+const initiated = await escrowMigrator.initiated(user);
+if ((numOfMatureUnvestedEntries == 0 || initiated) && (entriesToRegister.length > 0)) {
+   // register entries
+   await escrowMigrator.registerEntries(entriesToRegister)
+}
+```
+
+### Step 4 - Vest Registered Entries
+
+- Max number per round: **UNKNOWN** - further research required
+
+We know we are in this state if:
+- `escrowMigrator.initiated(user) == true` - the user must have begun the registration process
+- `entriesToRegister == 0` - there are no more unregistered, unvested entries
+- `entriesToVest > 0` - There are more entries to vest
+
+Entries to vest after registration have the following properties:
+- `entry.escrowAmount > 0` - it hasn't been vested yet
+- `registeredEntry.escrowAmount > 0` - it has been registered on the escrow migrator contract
+  - **WARNING** - this point is critical, if any entries are vested at this stage that have not been registered, the user will lose money
+
+Here is the pseudo code:
+```javascript
+const initiated = await escrowMigrator.initiated(user);
+const numRegisteredEntries = await escrowMigrator.numberOfRegisteredEntries(user)
+// WARNING: CRITICAL - THIS DATA MUST BE QUERIED FROM `escrowMigrator.getRegisteredVestingEntryIDs` OR THE USER WILL LOSE MONEY
+const registeredEntryIDs = escrowMigrator.getRegisteredVestingEntryIDs(user, 0, numRegisteredEntries);
+
+const entriesToVest = registeredEntryIDs.filter(entryID => {
+   // check on rewardEscrowV1 if the entry has been vested
+   const entry = await rewardEscrowV1.getVestingEntry(user, entryID);
+   // only keep entries that haven't been vested yet
+   return entry.escrowAmount > 0;
+});
+
+if (initiated && entriesToRegister.length == 0 && entriesToVest > 0) {
+   // vest the entries
+   await rewardEscrowV1.vest(entriesToVest)
+}
+```
+
+## Step 5 - Approve Escrow Migrator
+
+We know we are in this state if:
+- `escrowMigrator.initiated(user) == true` - we have started the migration process
+- `entriesToRegister == 0` - there are no more entries to register
+- `entriesToVest == 0` - there are not more entries to vest
+- `kwenta.allowance(user, escrowMigrator) < escrowMigrator.toPay(user)` - the user hasn't approved the escrow migrator to spend their money
+
+```javascript
+const initiated = await escrowMigrator.initiated(user);
+const allowance = await kwenta.allowance(user, escrowMigrator)
+const toPay = escrowMigrator.toPay(user)
+const approved = toPay <= allowance;
+
+if (initiated && entriesToRegister == 0 && entriesToVest == 0 && !approved) {
+   // approve the escrow migrator
+   kwenta.approve(escrowMigrator, toPay)
+}
+```
+
+## Step 6 - Migrate Entries
+
+- Max number per round: ~130
+
+We know we are in this state if:
+- `escrowMigrator.initiated(user) == true` - we have started the migration process
+- `entriesToRegister == 0` - there are no more entries to register
+- `entriesToVest == 0` - there are not more entries to vest
+- `kwenta.allowance(user, escrowMigrator) >= escrowMigrator.toPay(user)` - the user has approved the escrow migrator contract
+- `entriesToMigrate > 0` - there are no more entries to migrate
+
+```javascript
+const initiated = await escrowMigrator.initiated(user);
+const allowance = await kwenta.allowance(user, escrowMigrator)
+const toPay = escrowMigrator.toPay(user)
+const approved = toPay <= allowance;
+
+const numRegisteredEntries = await escrowMigrator.numberOfRegisteredEntries(user)
+const registeredEntries = escrowMigrator.getRegisteredVestingEntryIDs(user, 0, numRegisteredEntries);
+const registeredEntries = await escrowMigrator.getRegisteredVestingSchedules(user, 0, registeredEntries);
+
+const entriesToMigrate = registeredEntries.filter(entry => {
+   // must not already be migrated
+   if (entry.migrated) return false;
+   return true;
+})
+
+if (initiated && entriesToRegister == 0 && entriesToVest == 0 && approved && entriesToMigrate.length > 0) {
+   // assuming we send the new entries to the same user address
+   const toAddress  = user
+   // migrate the entries
+   await escrowMigrator.migrateEntries(toAddress, entriesToMigrate)
+}
+```
 
