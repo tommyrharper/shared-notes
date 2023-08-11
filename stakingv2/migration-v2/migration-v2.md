@@ -290,3 +290,41 @@ if (initiated && entriesToRegister == 0 && entriesToVest == 0 && approved && ent
 }
 ```
 
+### Step 7 - Unstake any remaining liquid KWENTA
+
+We know we are in this state if:
+- `rewardEscrowV1.balanceOf(user) == 0` - there is no escrow left in V1
+- `entriesToMigrate == 0` - there are no entries left to migrate
+- `stakingRewardsV1.balanceOf(user) > 0` - the user still has a balance on staking rewards v1
+
+```javascript
+const stakingRewardsV1Balance = await stakingRewardsV1.balanceOf(user)
+const rewadEscrowV1Balance = await rewardEscrowV1.balanceOf(user);
+if (rewadEscrowV1Balance == 0 && stakingRewardsV1Balance > 0 && entriesToMigrate.length == 0) {
+   // unstake the remaining balance
+   await stakingRewardsV1.exit()
+}
+```
+
+### Step 8 - Stake any liquid KWENTA on V2
+
+We know we are in this state if:
+- `rewardEscrowV1.balanceOf(user) == 0` - there is no escrow left in V1
+- `entriesToMigrate == 0` - there are no entries left to migrate
+- `stakingRewardsV1.balanceOf(user) == 0` - the user still has nothing left on V1
+- `kwenta.balanceOf(user) > 0` - the user has liquid balance
+
+```javascript
+const balance = await kwenta.balanceOf(user)
+
+if (rewadEscrowV1Balance == 0 && stakingRewardsV1Balance == 0 && entriesToMigrate.length == 0 && balance > 0) {
+   // stake liquid KWENTA in V2
+   stakingRewardsV2.stake(balance)
+}
+```
+
+And that is it! Phew.
+
+I wrote all this logic out all very quickly and roughly, so there may be bugs.
+
+This is just pseudo code, it needs going over much more closely and testing properly.
