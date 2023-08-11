@@ -111,7 +111,7 @@ This diagram is to help visualise the flow of what is happening internally at th
 
 It can also be helpful for visualising the flow $KWENTA during the migration path.
 
-![](2023-08-11-17-01-29.png)
+![](2023-08-11-17-16-06.png)
 
 ## Logical Details For Each Step
 
