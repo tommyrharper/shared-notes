@@ -5,7 +5,8 @@
 - [x] [L-1] Missing zero address checks for staking contracts
 - [x] [L-2] getVestingQuantity doesn’t consider duplicates
   - **Not acted upon**: Decided it is not worth the gas costs to check for duplicates.
-- [ ] [L-3] balanceAtTime, escrowedbalanceAtTime, and totalSupplyAtTime can return different values for not-finalized block.
+- [x] [L-3] balanceAtTime, escrowedbalanceAtTime, and totalSupplyAtTime can return different values for not-finalized block.
+  - Updated docs
 - [x] [Q-1] Use of override is not required
 - [x] [Q-2] Inaccurate comment
 - [x] [Q-3] Inconsistent behavior between getVestingSchedules and getAccountVestingEntryIDs
