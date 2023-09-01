@@ -10,16 +10,7 @@
 - [x] [Q-2] Inaccurate comment
 - [x] [Q-3] Inconsistent behavior between getVestingSchedules and getAccountVestingEntryIDs
 - [x] [Q-4] Import of IERC20.sol
-
-
-- [x] Add `treasuryDAO` to initializer
-- [x] Add `setTreasuryDAO` to EscrowMigrator
-- [x] Check initializer zero address checks
-- [x] remove onlyOwner check on withdrawFunds
-- [x] Rename withdrawFunds
-- [x] add logic for handling users who missed migration window
-- [x] Test users cannot register more after the 2 week period.
-- [x] Test frozen logic
-- [x] Add accountForFrozenFunds to interface
-- [ ] Add event for accountForFrozenFunds
-- [ ] Remove `getIntegratorReward` from `StakingRewardsV2`.
+- [x] [Q-5] Missing natspec param description in constructors
+- [x] [Q-6] escrowedbalanceAtTime incorrectly spelled according to naming convention
+- [x] [G-1] Tracking block number in Checkpoint struct is not necessarily needed
+  - **Not acted upon**: We want to keep it in case we need it in the future, however we have adapted the `Checkpoint` struct to fit into a single storage slot to make the gas impact negligible.
