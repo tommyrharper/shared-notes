@@ -20,8 +20,11 @@
 
 ## Left to Andrew/Monte
 
-- [ ] [H-02] EarlyVestFeeDistributor Can Be Simplified to Reduce Risk and System Overhead
-  - `daysToOffsetBy` issue
-- [ ] [L-02] Fee Rewards Distribution Fairness Concerns
-- [ ] [L-03] Epoch 0 Rewards Unclaimability [Previously Known Issue]
-- [ ] [N-03] Unused Code
+- [x] [H-02] EarlyVestFeeDistributor Can Be Simplified to Reduce Risk and System Overhead
+  - **Acted upon**: Acted upon: `StakingRewardsNotifier` is implemented.
+- [x] [L-02] Fee Rewards Distribution Fairness Concerns
+  - **Not acted upon**: Previously known and viewed as an acceptable solution, at least for now. Also currently mitigated by switch to `StakingRewardsNotifier`.
+- [x] [L-03] Epoch 0 Rewards Unclaimability [Previously Known Issue]
+  - **Not acted upon**: Some debate within the team about this issue, and your approach versus the wait 1 week approach. We have decided not to bother changing it at the moment as we have followed your recommendation to use `StakingRewardsNotifier` instead.
+- [x] [N-03] Unused Code - `daysToOffsetBy` issue
+  - **Not acted upon**: Since `TokenDistributor` is now being postponed for use in the future, the offset will likely be used then.
