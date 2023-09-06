@@ -72,7 +72,7 @@ The other exception to this is in the case that a user has registered so many en
 
 In this case, the `totalLocked` value will be incorrect, and the `recoverExcessFunds` function will not be able to sweep all funds to the treasury.
 
-However I believe that this is unlikely to happen as in reality probably few users will miss the deadline and the function can likely handle a large number of entries.
+However I believe that this is extremely unlikely to happen. In reality probably few users will miss the deadline and the function can by my calculation handle up to `37_000` entries in one transaction (using less than 30m gas). We are not aware of any users who have `2000` entries or more, so a capacity of `37_000` is plenty.
 
 - TODO: calculated how many iterations of the loop it would take to run out of gas.
 
