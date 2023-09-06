@@ -74,8 +74,6 @@ In this case, the `totalLocked` value will be incorrect, and the `recoverExcessF
 
 However I believe that this is extremely unlikely to happen. In reality probably few users will miss the deadline and the function can by my calculation handle up to `37_000` entries in one transaction (using less than 30m gas). We are not aware of any users who have `2000` entries or more, so a capacity of `37_000` is plenty.
 
-- TODO: calculated how many iterations of the loop it would take to run out of gas.
-
 Also the impact is low, it just means some funds (probably very little) are locked in the `EscrowMigrator` and if we really want them we could update the contract to allow us to sweep those funds.
 
 Again the `updateTotalLocked` function has no access control, so anyone can call it at any time.
