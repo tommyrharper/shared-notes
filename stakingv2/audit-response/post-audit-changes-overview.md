@@ -119,7 +119,7 @@ Due to the fact that `StakingRewardsNotifier` is now set in the `RewardEscrowV2`
 
 Storage packing has been applied in three new places:
 1. `IEscrowMigrator.VestingEntry`
-2. `IRewardEscrowV2.VestingEntry`
+2. `IRewardEscrowV2.VestingEntryPacked`
 3. `IStakingRewardsV2.Checkpoint`
 
 This has lead to significant gas savings.
@@ -130,13 +130,10 @@ earlyVestFee =
             (_entry.escrowAmount * _entry.earlyVestingFee * timeUntilVest) / (100 * _entry.duration);
 ```
 
-Here `100 * _entry.duration` would overflow due to the initial value I set for that as `uint32`.
-I then hence updated this piece of code as follows:
-```
-earlyVestFee = (uint256(_entry.escrowAmount) * _entry.earlyVestingFee * timeUntilVest)
-            / (100 * uint256(_entry.duration));
-```
-The casting to `uint256` prevents the overflow. I also increased the `duration` to size `uint40` as it was possible to make it a bit larger and still fit in a single slot.
+I have since fixed this by introducing an extra struct in `RewardEscrowV2`:
+- `VestingEntryPacked`
+
+`VestingEntryPacked` is what is written to storage, but elsewhere the `VestingEntry` struct is used, which only has `uint256`'s in it.
 
 The reason I am raising this specifically here is one of my worries is there may be an overflow somewhere due to the new storage packing that I have missed. I would appreciate if any auditors take a second look at this just to double check.
 
