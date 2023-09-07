@@ -140,6 +140,15 @@ The casting to `uint256` prevents the overflow. I also increased the `duration` 
 
 The reason I am raising this specifically here is one of my worries is there may be an overflow somewhere due to the new storage packing that I have missed. I would appreciate if any auditors take a second look at this just to double check.
 
+## Removal of StakingRewardsV2 Integrator functions
+
+The following functions have been removed from `StakingRewardsV2`:
+- `getIntegratorReward`
+- `getIntegratorAndSenderReward`
+- `getIntegratorRewardAndCompound`
+
+These functions were needed before it became possible to migrate V1 escrow. Now that we use the `EscrowMigrator` contract to migrate V1 escrow, even though these functions do no harm, they are not needed, so have been removed.
+
 ## Misc Changes
 
 There are some general smaller miscellaneous including but not limited to the following:
