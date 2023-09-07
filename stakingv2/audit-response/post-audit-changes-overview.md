@@ -48,7 +48,7 @@ In order to do this, two new functions have been added to the `EscrowMigrator` c
 
 Calling this function will transfer all excess funds from the `EscrowMigrator` contract to the `treasuryDAO` address, which is set in the `constructor` and also can be updated via an `onlyOwner` `setTreasuryDAO` function.
 
-The `recoverExcessFunds` has no access control, so anyone can claim it and sweep any excess funds to the treasury any time.
+The `recoverExcessFunds` is set to be an `onlyOwner` function, even though in theory it would be safe for anyone to call, it does trigger the transfer of funds and there is no reason for anyone other than Kwenta DAO to call it, so we have kept it `onlyOwner` just be extra safe.
 
 ### updateTotalLocked
 
