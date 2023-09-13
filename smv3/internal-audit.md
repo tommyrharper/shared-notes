@@ -14,8 +14,6 @@ In the `Engine` constructor it is missing the natspec for the `_oracle` param in
 
 Currently `override`  is specified on all the interface functions. Since the latest versions of solidity this can now be removed, making the contract cleaner and easier to read.
 
-## [N-03] Transfer to `Engine` is not needed when depositing collateral
-
 ## Questions
 
 - Wy is `MAX_CONDITIONS` limited to 8?
