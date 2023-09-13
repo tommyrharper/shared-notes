@@ -55,44 +55,27 @@ let candidates = [
   },
 ];
 
-let voteeName = "d";
-let newNumOfVotes = 8;
+const testSortCandidates = (candidates, voteeName, newNumOfVotes) => {
+  let sortedCandidates = sortCandidates(candidates, voteeName, newNumOfVotes);
 
-let result = sortCandidates(candidates, voteeName, newNumOfVotes);
-console.log(result);
+  console.log("result: ", sortedCandidates);
 
-voteeName = "d";
-newNumOfVotes = 4;
+  for (let i = 0; i < sortedCandidates.length - 1; i++) {
+    let candidate = sortedCandidates[i];
+    let nextCandidate = sortedCandidates[i + 1];
 
-result = sortCandidates(candidates, voteeName, newNumOfVotes);
-console.log(result);
+    if (nextCandidate.votes > candidate.votes) {
+      console.log(voteeName + newNumOfVotes, "failed ❌");
+    }
+  }
 
-voteeName = "c";
-newNumOfVotes = 10;
+  console.log(voteeName + newNumOfVotes, "passed ✅");
+};
 
-result = sortCandidates(candidates, voteeName, newNumOfVotes);
-console.log(result);
-
-voteeName = "c";
-newNumOfVotes = 8;
-
-result = sortCandidates(candidates, voteeName, newNumOfVotes);
-console.log(result);
-
-voteeName = "c";
-newNumOfVotes = 7;
-
-result = sortCandidates(candidates, voteeName, newNumOfVotes);
-console.log(result);
-
-voteeName = "a";
-newNumOfVotes = 10;
-
-result = sortCandidates(candidates, voteeName, newNumOfVotes);
-console.log(result);
-
-voteeName = "e";
-newNumOfVotes = 10;
-
-result = sortCandidates(candidates, voteeName, newNumOfVotes);
-console.log(result);
+testSortCandidates(candidates, "d", 8);
+testSortCandidates(candidates, "d", 4);
+testSortCandidates(candidates, "c", 10);
+testSortCandidates(candidates, "c", 8);
+testSortCandidates(candidates, "c", 7);
+testSortCandidates(candidates, "a", 10);
+testSortCandidates(candidates, "e", 10);
