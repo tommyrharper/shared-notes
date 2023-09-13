@@ -1,30 +1,5 @@
-let candidates = [
-  {
-    name: "a",
-    votes: 9,
-  },
-  {
-    name: "b",
-    votes: 7,
-  },
-  {
-    name: "c",
-    votes: 5,
-  },
-  {
-    name: "d",
-    votes: 3,
-  },
-  {
-    name: "e",
-    votes: 1,
-  },
-];
-
-let voteeName = "d";
-let newNumOfVotes = 8;
-
-const sortArray = (candidates, voteeName, newNumOfVotes) => {
+// The 1 sweep algorithm:
+const sortCandidates = (candidates, voteeName, newNumOfVotes) => {
   let newCandidates = [];
   let hasSwapped = false;
   let hasReachedVotee = false;
@@ -62,7 +37,34 @@ const sortArray = (candidates, voteeName, newNumOfVotes) => {
   return newCandidates;
 };
 
-let result = sortArray(candidates, voteeName, newNumOfVotes);
+// Tests:
+let candidates = [
+  {
+    name: "a",
+    votes: 9,
+  },
+  {
+    name: "b",
+    votes: 7,
+  },
+  {
+    name: "c",
+    votes: 5,
+  },
+  {
+    name: "d",
+    votes: 3,
+  },
+  {
+    name: "e",
+    votes: 1,
+  },
+];
+
+let voteeName = "d";
+let newNumOfVotes = 8;
+
+let result = sortCandidates(candidates, voteeName, newNumOfVotes);
 console.log(result);
 
 candidates = [
@@ -91,7 +93,7 @@ candidates = [
 voteeName = "d";
 newNumOfVotes = 4;
 
-result = sortArray(candidates, voteeName, newNumOfVotes);
+result = sortCandidates(candidates, voteeName, newNumOfVotes);
 console.log(result);
 
 candidates = [
@@ -120,7 +122,7 @@ candidates = [
 voteeName = "c";
 newNumOfVotes = 10;
 
-result = sortArray(candidates, voteeName, newNumOfVotes);
+result = sortCandidates(candidates, voteeName, newNumOfVotes);
 console.log(result);
 
 candidates = [
@@ -149,7 +151,7 @@ candidates = [
 voteeName = "c";
 newNumOfVotes = 8;
 
-result = sortArray(candidates, voteeName, newNumOfVotes);
+result = sortCandidates(candidates, voteeName, newNumOfVotes);
 console.log(result);
 
 candidates = [
@@ -178,7 +180,7 @@ candidates = [
 voteeName = "c";
 newNumOfVotes = 7;
 
-result = sortArray(candidates, voteeName, newNumOfVotes);
+result = sortCandidates(candidates, voteeName, newNumOfVotes);
 console.log(result);
 
 candidates = [
@@ -207,7 +209,7 @@ candidates = [
 voteeName = "a";
 newNumOfVotes = 10;
 
-result = sortArray(candidates, voteeName, newNumOfVotes);
+result = sortCandidates(candidates, voteeName, newNumOfVotes);
 console.log(result);
 
 candidates = [
@@ -236,5 +238,5 @@ candidates = [
 voteeName = "e";
 newNumOfVotes = 10;
 
-result = sortArray(candidates, voteeName, newNumOfVotes);
+result = sortCandidates(candidates, voteeName, newNumOfVotes);
 console.log(result);
