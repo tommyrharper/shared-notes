@@ -8,9 +8,7 @@ const sortCandidates = (candidates, voteeName, newNumOfVotes) => {
     let candidate = candidates[i];
 
     // keep it in place
-    if (candidate.votes > newNumOfVotes) newCandidates[i] = candidate;
-    // keep it in place
-    else if (candidate.votes == newNumOfVotes) newCandidates[i] = candidate;
+    if (candidate.votes >= newNumOfVotes) newCandidates[i] = candidate;
     // either swap, get previous one, or keep it in place depending on stage in sweep
     else if (candidate.votes < newNumOfVotes) {
       if (!hasSwapped) {
