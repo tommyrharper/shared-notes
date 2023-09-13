@@ -18,3 +18,4 @@ Currently `override`  is specified on all the interface functions. Since the lat
 
 - Wy is `MAX_CONDITIONS` limited to 8?
 - How does `PERPS_MARKET_PROXY.hasPermission` work in synthetix v3?
+- Now that `createAccount` has been removed, does a user still provide their admin rights to the `Engine` contract in separate transaction?
