@@ -61,86 +61,17 @@ let newNumOfVotes = 8;
 let result = sortCandidates(candidates, voteeName, newNumOfVotes);
 console.log(result);
 
-candidates = [
-  {
-    name: "a",
-    votes: 9,
-  },
-  {
-    name: "b",
-    votes: 7,
-  },
-  {
-    name: "c",
-    votes: 5,
-  },
-  {
-    name: "d",
-    votes: 3,
-  },
-  {
-    name: "e",
-    votes: 1,
-  },
-];
-
 voteeName = "d";
 newNumOfVotes = 4;
 
 result = sortCandidates(candidates, voteeName, newNumOfVotes);
 console.log(result);
 
-candidates = [
-  {
-    name: "a",
-    votes: 9,
-  },
-  {
-    name: "b",
-    votes: 7,
-  },
-  {
-    name: "c",
-    votes: 5,
-  },
-  {
-    name: "d",
-    votes: 3,
-  },
-  {
-    name: "e",
-    votes: 1,
-  },
-];
-
 voteeName = "c";
 newNumOfVotes = 10;
 
 result = sortCandidates(candidates, voteeName, newNumOfVotes);
 console.log(result);
-
-candidates = [
-  {
-    name: "a",
-    votes: 9,
-  },
-  {
-    name: "b",
-    votes: 7,
-  },
-  {
-    name: "c",
-    votes: 5,
-  },
-  {
-    name: "d",
-    votes: 3,
-  },
-  {
-    name: "e",
-    votes: 1,
-  },
-];
 
 voteeName = "c";
 newNumOfVotes = 8;
@@ -148,86 +79,17 @@ newNumOfVotes = 8;
 result = sortCandidates(candidates, voteeName, newNumOfVotes);
 console.log(result);
 
-candidates = [
-  {
-    name: "a",
-    votes: 9,
-  },
-  {
-    name: "b",
-    votes: 7,
-  },
-  {
-    name: "c",
-    votes: 5,
-  },
-  {
-    name: "d",
-    votes: 3,
-  },
-  {
-    name: "e",
-    votes: 1,
-  },
-];
-
 voteeName = "c";
 newNumOfVotes = 7;
 
 result = sortCandidates(candidates, voteeName, newNumOfVotes);
 console.log(result);
 
-candidates = [
-  {
-    name: "a",
-    votes: 9,
-  },
-  {
-    name: "b",
-    votes: 7,
-  },
-  {
-    name: "c",
-    votes: 5,
-  },
-  {
-    name: "d",
-    votes: 3,
-  },
-  {
-    name: "e",
-    votes: 1,
-  },
-];
-
 voteeName = "a";
 newNumOfVotes = 10;
 
 result = sortCandidates(candidates, voteeName, newNumOfVotes);
 console.log(result);
-
-candidates = [
-  {
-    name: "a",
-    votes: 9,
-  },
-  {
-    name: "b",
-    votes: 7,
-  },
-  {
-    name: "c",
-    votes: 5,
-  },
-  {
-    name: "d",
-    votes: 3,
-  },
-  {
-    name: "e",
-    votes: 1,
-  },
-];
 
 voteeName = "e";
 newNumOfVotes = 10;
