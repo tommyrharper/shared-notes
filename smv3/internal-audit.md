@@ -18,6 +18,5 @@ Currently `override`  is specified on all the interface functions. Since the lat
 
 ## Questions
 
-- Wy is `MAX_CONDITIONS` limited to 5?
-- In the `Engine.createAccount` function, where are admin rights provided to the `Engine` over the users account?
+- Wy is `MAX_CONDITIONS` limited to 8?
 - How does `PERPS_MARKET_PROXY.hasPermission` work in synthetix v3?
