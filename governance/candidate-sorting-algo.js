@@ -13,14 +13,14 @@ const sortCandidates = (candidates, voteeName, newNumOfVotes) => {
     else if (candidate.votes == newNumOfVotes) newCandidates[i] = candidate;
     // either swap, get previous one, or keep it in place depending on stage in sweep
     else if (candidate.votes < newNumOfVotes) {
-      // swap it
       if (!hasSwapped) {
+        // swap it (first iteration in this block)
         newCandidates[i] = { name: voteeName, votes: newNumOfVotes };
         hasSwapped = true;
       } else {
-        // get previous one
+        // get previous one (from 2nd iteration in this block until we reach the votee)
         if (!hasReachedVotee) newCandidates[i] = candidates[i - 1];
-        // keep it in place
+        // keep it in place (all iterations in this block after the votee)
         else newCandidates[i] = candidate;
       }
     }
