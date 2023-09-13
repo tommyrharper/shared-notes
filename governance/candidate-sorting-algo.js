@@ -7,31 +7,25 @@ const sortCandidates = (candidates, voteeName, newNumOfVotes) => {
   for (let i = 0; i < candidates.length; i++) {
     let candidate = candidates[i];
 
-    if (candidate.votes > newNumOfVotes) {
-      // keep it in place
-      newCandidates[i] = candidate;
-    } else if (candidate.votes == newNumOfVotes) {
-      // keep it in place
-      newCandidates[i] = candidate;
-    } else if (candidate.votes < newNumOfVotes) {
+    // keep it in place
+    if (candidate.votes > newNumOfVotes) newCandidates[i] = candidate;
+    // keep it in place
+    else if (candidate.votes == newNumOfVotes) newCandidates[i] = candidate;
+    // either swap, get previous one, or keep it in place depending on stage in sweep
+    else if (candidate.votes < newNumOfVotes) {
+      // swap it
       if (!hasSwapped) {
-        // swap it
         newCandidates[i] = { name: voteeName, votes: newNumOfVotes };
         hasSwapped = true;
       } else {
-        if (!hasReachedVotee) {
-					// get previous one
-          newCandidates[i] = candidates[i - 1];
-        } else {
-					// keep it in place
-          newCandidates[i] = candidate;
-        }
+        // get previous one
+        if (!hasReachedVotee) newCandidates[i] = candidates[i - 1];
+        // keep it in place
+        else newCandidates[i] = candidate;
       }
     }
 
-    if (candidate.name == voteeName) {
-      hasReachedVotee = true;
-    }
+    if (candidate.name == voteeName) hasReachedVotee = true;
   }
 
   return newCandidates;
