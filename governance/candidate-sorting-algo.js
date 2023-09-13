@@ -75,3 +75,30 @@ testSortCandidates(candidates, "c", 8);
 testSortCandidates(candidates, "c", 7);
 testSortCandidates(candidates, "a", 10);
 testSortCandidates(candidates, "e", 10);
+testSortCandidates(candidates, "e", 1);
+
+candidates = [
+  {
+    name: "a",
+    votes: 9,
+  },
+  {
+    name: "b",
+    votes: 9,
+  },
+  {
+    name: "c",
+    votes: 9,
+  },
+  {
+    name: "d",
+    votes: 9,
+  },
+  {
+    name: "e",
+    votes: 9,
+  },
+];
+
+testSortCandidates(candidates, "d", 9);
+
