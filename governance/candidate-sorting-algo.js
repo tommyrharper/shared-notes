@@ -1,4 +1,4 @@
-// The 1 sweep O(n) algorithm:
+// The 1 sweep O(n) sorting algorithm (this only works because only 1 item is unsorted each time):
 const sortCandidates = (candidates, voteeName, newNumOfVotes) => {
   let newCandidates = [];
   let hasSwapped = false;
