@@ -17,12 +17,10 @@ const sortCandidates = (candidates, voteeName, newNumOfVotes) => {
         // swap it (first iteration in this block)
         newCandidates[i] = { name: voteeName, votes: newNumOfVotes };
         hasSwapped = true;
-      } else {
         // get previous one (from 2nd iteration in this block until we reach the votee)
-        if (!hasReachedVotee) newCandidates[i] = candidates[i - 1];
-        // keep it in place (all iterations in this block after the votee)
-        else newCandidates[i] = candidate;
-      }
+      } else if (!hasReachedVotee) newCandidates[i] = candidates[i - 1];
+      // keep it in place (all iterations in this block after the votee)
+      else newCandidates[i] = candidate;
     }
 
     if (candidate.name == voteeName) hasReachedVotee = true;
