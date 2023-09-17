@@ -91,6 +91,15 @@ Governed by DAOs:
 
 The vision is to make the creation and management of components permissionless, meaning anyone can create and administer them on any EVM compatible chain and create just about any defi product based upon these fundamental parts.
 
+## List of things you could build on v3
+
+- Perpetual Futures / Options / Structured Products: trading using synthetic assets to represent leveraged positions for perpetual futures, including basis trading, and funding rate arbitrage vaults. GMX could be built on Synthetix v3.
+- NFT-Fi borrowing/perpetuals: Users can borrow synthetic assets collateralized by NFTs or create perpetual contracts speculating on the future value of NFTs, with rewards distributed to Synthetix stakers. For instance, nftperp.xyz could be built on Synthetix v3
+- Insurance markets: Users can purchase insurance contracts for various risks, collateralized by Pools and governed by smart contracts. Eg Nexus Mutual could be built on Synthetix v3.
+- Prediction markets / Binary Options / Sports Bettings: Users can trade shares based on the outcome of events, such as election results or sports games. Overtime Markets, for example, could be built on Synthetix v3.
+- Games: any game could leverage Synthetix collateral, to provide competitive prizes. Eg a lottery is easy to implement on Synthetix v3.
+- Offchain / RWA Markets: Markets could be developed for real-world assets such as art, carbon credits or other offchain assets or instruments. With sufficient oracles and trusted entity verification, this "trust" could generate capital on chain, backed by Synthetix and snxUSD. The opportunities are endless.
+
 ## Overview
 
 Currently Synthetix V3 is in alpha and is not fully operational, but is set to take over Synthetix V2 as one of the most popular protocols in all of crypto.
@@ -119,6 +128,16 @@ Synthetix V2 can be thought of as a narrow application of Synthetix V3.
 - Perps on V3
 - Markets are not yet deployed - hence no incentive to move over from V2 yet
 - Plans to shift inflation towards V3 as a migration incentive
+- Teleporters to allow burning sUSD on one chain and minting on another.
+  - Could be expanded to all synths
+- Cross chain pool synthesis
+  - Vision to make synthetix behave across all chains as a single system with shared homogenous liquidity
+  - SIP-312 enables Markets and Pools on all chains know the current state of the combined collateral across all chains
+  - Perps markets deployed to all chains will be able to utilise liquidity on op and l1 eth
+  - Crosschain Pools require both CCIP Write and Chainlink Functions to be deployed to all networks that require this feature
+- Permissionless Pools and Markets - the End Game
+  - Currently only the spartan council can create and administer pools and markets
+  - Plan is to make this entirely permissionless
 
 ## v3GM
 
