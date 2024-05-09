@@ -61,7 +61,7 @@ The skew scale, determines the level of skew at which the maximum funding veloci
     xtick={-2, -1, 0, 1, 2},
     xticklabels={, $-skewScale$, , $skewScale$},
     ytick={-2, -1, 0, 1, 2},
-    yticklabels={, $-V_{max}$, , $V_{max}$, ,},
+    yticklabels={, $-I^s_{max}$, , $I^s_{max}$, ,},
     ymajorgrids=true,
     xmajorgrids=true,
     grid style=loosely dashed,
@@ -91,10 +91,10 @@ The skew scale, determines the level of skew at which the maximum funding veloci
     xticklabel style={anchor=north},
     ylabel=$\frac{d^2i}{d^2tK}$,
     ytick={-2, -1},
-    yticklabels={, $\cfrac{-V_{max}}{skewScale}$},
+    yticklabels={, $\cfrac{-I^s_{max}}{skewScale}$},
     yticklabel style={anchor=east},
     extra y ticks={1, 2},
-    extra y tick labels={$\cfrac{V_{max}}{skewScale}$,},
+    extra y tick labels={$\cfrac{I^s_{max}}{skewScale}$,},
     extra y tick style={
         yticklabel style={anchor=west}
     },
@@ -131,8 +131,37 @@ But for proportional skew we do it differently:
 \begin{equation}
 W := \frac{K \cdot p}{V_{max}} = \textit{Proportional Skew}
 \end{equation}
+Note: we could remove this clamp/bounding step too if we wanted:
 \begin{equation}
-I^s = W \cdot I^s_{max} = \textit{Skew Funding Velocity}
+W_{\textit{bounded}} = clamp(W, -1, 1)
 \end{equation}
+\begin{equation}
+I^s = W_{\textit{bounded}} \cdot I^s_{max} = \textit{Skew Funding Velocity}
+\end{equation}
+
+\subsection{New Funding Velocity}
+
+\begin{tikzpicture}
+\begin{axis}[
+    title={Funding velocity vs. market skew},
+    xmin=-2, xmax=2,
+    ymin=-2, ymax=2,
+    axis lines=middle,
+    xlabel=$K \cdot p$,
+    ylabel=$\frac{di}{dt}$,
+    xtick={-2, -1, 0, 1, 2},
+    xticklabels={, $-V_{max}$, , $V_{max}$},
+    ytick={-2, -1, 0, 1, 2},
+    yticklabels={, $-I^s_{max}$, , $I^s_{max}$, ,},
+    ymajorgrids=true,
+    xmajorgrids=true,
+    grid style=loosely dashed,
+]
+\addplot[color=blue, samples=100, domain=-1:1]{-x};
+% \addplot[color=blue, samples=100, domain=-2:2]{-x};
+\addplot[color=blue, samples=100, domain=1:2]{-1};
+\addplot[color=blue, samples=100, domain=-2:-1]{1};
+\end{axis}
+\end{tikzpicture}
 
 \end{document}
