@@ -76,6 +76,8 @@ I^s = W_{\textit{bounded}} \cdot I^s_{max} = \textit{Skew Funding Velocity}
 
 \subsection{Funding Velocity diagrams}
 
+Notice the only difference is how $skewScale$ is swapped for $V_{max}$ (which is the OI limit), and the x-axis changes from just skew $K$ to $K \cdot p$ or skew times price which is notional skew.
+
 \subsubsection{Old Model}
 
 \begin{tikzpicture}
@@ -206,5 +208,13 @@ I^s = W_{\textit{bounded}} \cdot I^s_{max} = \textit{Skew Funding Velocity}
 \addplot[color=blue, samples=100, domain=1:2]{0};
 \end{axis}
 \end{tikzpicture}
+
+\section{Summary}
+
+This change would mean we no longer need to set $skewScale$, we just set the $I^s_{max}$ (max skew funding velocity), and the skew scale is implied by the available open interest.\\
+
+This would mean that skew scale fluctuates with as the amount of liquidity backing the market changes, increasing funding intensity as available liquidity shrinks.\\
+
+It also means that funding is proportional to notional skew, not skew, so as the base asset price increases, so does funding velocity.
 
 \end{document}
