@@ -11,5 +11,9 @@
 *.log
 *.gz
 *.out
-*/_whitepaper.pdf
 *.synctex(busy)
+
+# pdfs
+*/_whitepaper.pdf
+*/_skew.pdf
+*/_funding.pdf
