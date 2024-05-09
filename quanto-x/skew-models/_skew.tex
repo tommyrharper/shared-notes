@@ -43,7 +43,7 @@ W := \frac{K}{skewScale} = \textit{Proportional Skew}
 W_{\textit{bounded}} = clamp(W, -1, 1)
 \end{equation}
 \begin{equation}
-I^s = W_{\textit{bounded}}\cdot I^s_{max} = Skew Funding Velocity
+I^s = W_{\textit{bounded}}\cdot I^s_{max} = \textit{Skew Funding Velocity}
 \end{equation}
 
 The skew scale, determines the level of skew at which the maximum funding velocity will be achieved.
@@ -117,6 +117,22 @@ The skew scale, determines the level of skew at which the maximum funding veloci
 
 I propose a slightly different model which removes the need for $skewScale$ and allows the market to dynamically respond to changing market conditions and available liquidity.\\
 
+If you think about it, the maximum funding velocity should be achieved when the market is at maximum skew. This happens when open interest is fully maxed out in one direction. It is also worth noting, that the power of funding for a given skew, should be relative to the amount of liquidity provided by LPs. 1 ETH in skew is not a big deal to LPs if there is 1 million ETH in liquidity available, but if there is only 1 ETH in liquidity backing the market, 1 ETH is a potentially catastrophic bankruptcy risk. Hence the power of funding should be relative to amount of liquidity backing the market. In SNX V3, this is managed manually by setting the $skewScale$ parameter.\\
 
+The next thing to note, is that the price of the base asset should also effect the intensity of funding (although it doesn't in V3). This is because in V3, funding is based on skew which is based on position sizes, which are unaffected by the price of the base asset. But if you think about it, 10 BTC in skew provides a USD backed market much more risk when the BTC price \$100k than when it is \$50k, because the notional size of the skew has doubled, so LPs have double the directional exposure. A 10\% price move at \$100k BTC is double what it is at \$50k. But currently funding in V3 has no relation to the notional size of the skew.\\
+
+My argument is that what is called $skewScale$ in SNX V3 should be proportional to the amount of liquidity backing the market and the base asset price. On this basis, as we know both of these factors, there is no need to set a specific $skewScale$ parameter. Instead we can just change funding to be a function of notional skew, and the open interest caps of the market, which in our model are set based on the amount of liquidity available and the collateralisation ratio.\\
+
+We have the same equation for skew:
+\begin{equation}
+K := \sum_{c \in C}{q^c} = Q_L - Q_S
+\end{equation}
+But for proportional skew we do it differently:
+\begin{equation}
+W := \frac{K \cdot p}{V_{max}} = \textit{Proportional Skew}
+\end{equation}
+\begin{equation}
+I^s = W \cdot I^s_{max} = \textit{Skew Funding Velocity}
+\end{equation}
 
 \end{document}
